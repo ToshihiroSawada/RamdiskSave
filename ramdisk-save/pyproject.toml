@@ -7,7 +7,11 @@ authors = [
     { name = "sawada", email = "use.github.mail@gmail.com" }
 ]
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "black",
+    "isort",
+    "ruff",
+]
 
 [build-system]
 requires = ["uv_build>=0.9.18,<0.10.0"]
@@ -19,11 +23,21 @@ dev = [
 ]
 
 
-[tool.ruff]
-line-length = 88
-
 [tool.ruff.lint]
-select = ["E", "F", "I"]
+select = [
+    "F",  # Flake8
+    "B",  # Black
+    "I",  # isort
+    "E",  # error
+    "W"   # warning
+]
+ignore = []
+fixable = ["ALL"]
 
-[tool.ruff.format]
-quote-style = "double"
+# isortの設定（blackスタイルでソート）
+[tool.isort]
+profile = "black"
+
+# blackの設定
+[tool.black]
+line-length = 88

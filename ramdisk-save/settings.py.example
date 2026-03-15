@@ -1,4 +1,20 @@
 # RAMディスクのパスを記述
-src = ""
+src = r"C:\Users\toshihiro\CacheFiles"
 # Ramディスクのセーブ先を記述
-dst = ""
+dst = r"Y:\Users\toshihiro\AppData\Local"
+# RAMデータをディスクへセーブするためのコマンド
+cmd = rf"""
+setlocal &
+
+REM 同期元と同期先のパスを設定 &
+set "SOURCE={src}" &
+set "DEST={dst}" &
+
+REM ログファイルの保存場所（任意） &
+set "LOG=D:/RAMdisk-data-save.log" &
+
+REM 実行コマンド &
+robocopy "%SOURCE%" "%DEST%" /MIR /Z /XA:H /W:5 /R:3 /LOG:"%LOG%" &
+endlocal
+
+"""
