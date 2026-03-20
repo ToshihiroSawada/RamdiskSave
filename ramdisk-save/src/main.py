@@ -31,13 +31,13 @@ if __name__ == "__main__":
 
     if src_dirs == dst_dirs:
         try:
-            logger.info(f"実行スクリプト:\n{settings.cmd}")
+            logger.info("実行スクリプト:\n%s", settings.cmd)
 
             # settings.cmdが複数行のスクリプトの場合、shell=Trueで直接渡すのではなく、
             # シェルの標準入力に渡すのが最も確実な方法です。
             # 'cmd.exe'を起動し、inputパラメータでスクリプトを渡します。
             result = subprocess.run(
-                "cmd.exe",
+                r"C:\Windows\system32\cmd.exe",
                 input=settings.cmd,
                 capture_output=True,
                 text=True,
@@ -47,11 +47,11 @@ if __name__ == "__main__":
 
             logger.info("コマンドが正常に実行されました。")
             if result.stdout:
-                logger.info(f"標準出力:\n{result.stdout}")
+                logger.info("標準出力:\n%s", result.stdout)
             if result.stderr:
-                logger.warning(f"標準エラー出力:\n{result.stderr}")
+                logger.warning("標準エラー出力:\n%s", result.stderr)
         except subprocess.CalledProcessError as e:
-            logger.error("コマンドの実行に失敗しました。")
-            logger.error(f"リターンコード: {e.returncode}")
-            logger.error(f"標準出力:\n{e.stdout}")
-            logger.error(f"標準エラー出力:\n{e.stderr}")
+            logger.exception("コマンドの実行に失敗しました。")
+            logger.exception("リターンコード: %s", e.returncode)
+            logger.exception("標準出力:\n%s", e.stdout)
+            logger.exception("標準エラー出力:\n%s", e.stderr)
