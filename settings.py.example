@@ -2,6 +2,7 @@
 src = r"C:\Users\toshihiro\CacheFiles"
 # Ramディスクのセーブ先を記述
 dst = r"Y:\Users\toshihiro\AppData\Local"
+
 # RAMデータをディスクへセーブするためのコマンド
 cmd = rf"""
 setlocal &
@@ -18,3 +19,5 @@ robocopy "%SOURCE%" "%DEST%" /MIR /Z /XA:H /W:5 /R:3 /LOG:"%LOG%" &
 endlocal
 
 """
+
+LOG_LEVEL = "WARN"

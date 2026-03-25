@@ -7,11 +7,7 @@ authors = [
     { name = "sawada", email = "use.github.mail@gmail.com" }
 ]
 requires-python = ">=3.14"
-dependencies = [
-    "black",
-    "isort",
-    "ruff",
-]
+dependencies = []
 
 [build-system]
 requires = ["uv_build>=0.9.18,<0.10.0"]
@@ -22,11 +18,13 @@ dev = [
     "ruff>=0.15.6",
 ]
 
+[tool.ruff]
+line-length = 100
 
 [tool.ruff.lint]
 select = [
-    "F",  # Flake8
-    "B",  # Black
+    "F",  # Pyflakes
+    "B",  # Bugbear
     "I",  # isort
     "E",  # error
     "W"   # warning
@@ -34,10 +32,5 @@ select = [
 ignore = []
 fixable = ["ALL"]
 
-# isortの設定（blackスタイルでソート）
-[tool.isort]
-profile = "black"
-
-# blackの設定
-[tool.black]
-line-length = 100
+[tool.ruff.format]
+quote-style = "double"
