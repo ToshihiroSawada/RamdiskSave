@@ -40,22 +40,32 @@ if __name__ == "__main__":
     try:
         logger.info("実行スクリプト:\n%s", cmd)
 
-        result = subprocess.run(
-            r"C:\Windows\system32\cmd.exe",
-            input=cmd,
+        # Robocopyの終了コードを正しく取得するため、cmd.exe経由(input)ではなく
+        # 直接実行し(shell=False)、check=Falseで例外化を防止
+        result = subprocess.run(  # noqa: S603
+            cmd,
+            shell=False,
             capture_output=True,
             text=True,
-            check=True,
+            check=False,
             encoding="cp932",
         )
 
-        logger.info("コマンドが正常に実行されました。")
+        # エラー判定を強化:
+        # 1. 終了コードが8以上（Robocopyの重大エラー）  # noqa: RUF003
+        # 2. または、標準エラー出力に何かが出力されている（コマンドが見つからない、構文エラーなど）  # noqa: E501, RUF003
+        if result.returncode >= 8 or result.stderr:  # noqa: PLR2004
+            logger.error("コマンド実行エラー (Return Code: %s)", result.returncode)
+            logger.error("標準出力:\n%s", result.stdout)
+            logger.error("標準エラー出力:\n%s", result.stderr)
+            sys.exit(result.returncode)
+
+        logger.info("コマンドが正常に実行されました (Return Code: %s)", result.returncode)
+        # 正常時は詳細ログをデバッグレベルに留める
         if result.stdout:
-            logger.info("標準出力:\n%s", result.stdout)
+            logger.debug("標準出力:\n%s", result.stdout)
         if result.stderr:
-            logger.warning("標準エラー出力:\n%s", result.stderr)
-    except subprocess.CalledProcessError as e:
-        logger.exception("コマンドの実行に失敗しました。")
-        logger.exception("リターンコード: %s", e.returncode)
-        logger.exception("標準出力:\n%s", e.stdout)
-        logger.exception("標準エラー出力:\n%s", e.stderr)
+            logger.debug("標準エラー出力:\n%s", result.stderr)
+
+    except Exception:
+        logger.exception("予期せぬエラーが発生しました。")

@@ -7,20 +7,6 @@ log_path = r"D:\Backups\RamdiskSave.log"
 
 
 # RAMデータをディスクへセーブするためのコマンド
-cmd = rf"""
-setlocal &
-
-REM 同期元と同期先のパスを設定 &
-set "SOURCE={src}" &
-set "DEST={dst}" &
-
-REM ログファイルの保存場所(任意) &
-set "LOG={log_path}" &
-
-REM 実行コマンド &
-robocopy "%SOURCE%" "%DEST%" /MIR /Z /XA:H /W:5 /R:3 /LOG:"%LOG%" &
-endlocal
-
-"""
+cmd = f'robocopy /E /COPY:DAT /DCOPY:DAT /MIR /W:5 /R:3 /NP /LOG:"{log_path}" /TEE "{src}" "{dst}"'
 
 LOG_LEVEL = "WARN"

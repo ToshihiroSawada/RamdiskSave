@@ -38,7 +38,7 @@ LOG_LEVEL = "INFO"               # ログレベル (INFO, DEBUG, WARNING など)
 
 # 実行するコマンド（例: robocopy）
 # 標準入力として cmd.exe に渡されます
-cmd = f"robocopy \"{src}\" \"{dst}\" /MIR /FFT /R:0 /W:0"
+cmd = f'robocopy /E /COPY:DAT /DCOPY:DAT /MIR /W:5 /R:3 /LOG:"{log_path}" /TEE "{src}" "{dst}"'
 ```
 
 ## 実行方法
@@ -46,5 +46,5 @@ cmd = f"robocopy \"{src}\" \"{dst}\" /MIR /FFT /R:0 /W:0"
 プロジェクトのルートディレクトリで以下のコマンドを実行します。
 
 ```powershell
-python src/ramdisk_save/main.py
+.venv\Scripts\pythonw.exe src/ramdisk_save/main.py
 ```
