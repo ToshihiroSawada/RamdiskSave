@@ -12,15 +12,15 @@ def my_logger(name: str) -> logging.Logger:
     """Configure logging"""
     _st = settings
     log_level = getattr(logging, _st.LOG_LEVEL)
-    filename = "./Result.log"
+    # 実行ディレクトリに依存しないよう、このファイルを基準に絶対パスを設定
+    filename = str(pathlib.Path(__file__).parent / "Result.log")
     logging.basicConfig(
         level=log_level,
         filename=filename,
         format="%(asctime)s, %(levelname)s, %(message)s, %(lineno)d",
         force=True,
     )
-    _logger = logging.getLogger(name)
-    return _logger
+    return logging.getLogger(name)
 
 
 def shutdown() -> None:

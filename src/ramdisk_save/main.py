@@ -1,4 +1,4 @@
-"""main prosess"""
+"""main process"""
 
 import subprocess
 import sys
@@ -16,7 +16,7 @@ def list_dirs(path: str) -> list:
     if Path(path).exists() is False:
         return list_dirs
 
-    list_dirs.extend(d for d in Path(path).iterdir() if d.is_file)
+    list_dirs.extend(d for d in Path(path).iterdir() if d.is_dir())
     return list_dirs
 
 
@@ -34,7 +34,7 @@ if __name__ == "__main__":
         logger.info(
             "RAMディスクへのロードが正しく行われていません。セーブを中止します。",
         )
-        sys.exit()
+        sys.exit(1)
 
     try:
         logger.info("実行スクリプト:\n%s", settings.cmd)

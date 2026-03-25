@@ -22,14 +22,13 @@ dev = [
 line-length = 100
 
 [tool.ruff.lint]
-select = [
-    "F",  # Pyflakes
-    "B",  # Bugbear
-    "I",  # isort
-    "E",  # error
-    "W"   # warning
+select = ["ALL"]
+
+ignore = [
+    "D",
+    "ANN",
+    "T201",
 ]
-ignore = []
 fixable = ["ALL"]
 
 [tool.ruff.format]
