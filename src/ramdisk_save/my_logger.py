@@ -1,19 +1,18 @@
 """logging setting"""
 
 import logging
-import pathlib
 import sys
+from pathlib import Path
 
-sys.path.append(str(pathlib.Path(__file__).parent.parent))
-import settings
+sys.path.append(str(Path(__file__).resolve().parents[2]))
+from settings import LOG_LEVEL
 
 
 def my_logger(name: str) -> logging.Logger:
     """Configure logging"""
-    _st = settings
-    log_level = getattr(logging, _st.LOG_LEVEL)
+    log_level = getattr(logging, LOG_LEVEL)
     # 実行ディレクトリに依存しないよう、このファイルを基準に絶対パスを設定
-    filename = str(pathlib.Path(__file__).parent / "Result.log")
+    filename = str(Path(__file__).parent / "../../Result.log")
     logging.basicConfig(
         level=log_level,
         filename=filename,

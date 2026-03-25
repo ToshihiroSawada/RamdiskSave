@@ -6,8 +6,9 @@ from pathlib import Path
 
 from my_logger import my_logger
 
-sys.path.append(str(Path(__file__).parent.parent))
-import settings
+# プロジェクトのルートディレクトリをパスに追加
+sys.path.append(str(Path(__file__).resolve().parents[2]))
+from settings import cmd, dst, src
 
 
 def list_dirs(path: str) -> list:
@@ -23,8 +24,8 @@ def list_dirs(path: str) -> list:
 if __name__ == "__main__":
     logger = my_logger(__name__)
 
-    src_dirs = list_dirs(settings.src)
-    dst_dirs = list_dirs(settings.dst)
+    src_dirs = list_dirs(src)
+    dst_dirs = list_dirs(dst)
 
     logger.info(src_dirs)
     logger.info(dst_dirs)
@@ -37,11 +38,11 @@ if __name__ == "__main__":
         sys.exit(1)
 
     try:
-        logger.info("実行スクリプト:\n%s", settings.cmd)
+        logger.info("実行スクリプト:\n%s", cmd)
 
         result = subprocess.run(
             r"C:\Windows\system32\cmd.exe",
-            input=settings.cmd,
+            input=cmd,
             capture_output=True,
             text=True,
             check=True,
